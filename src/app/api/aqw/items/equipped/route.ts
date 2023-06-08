@@ -7,7 +7,7 @@ export async function GET(req: Request) {
   if (!name)
     return NextResponse.json({ error: "No name provided" }, { status: 400 });
   const data = await getEquippedByName(name);
-  if (data === 400)
+  if (data === 404)
     return NextResponse.json({ error: "No data found" }, { status: data });
 
   return NextResponse.json({ data });
