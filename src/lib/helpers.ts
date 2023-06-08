@@ -20,7 +20,7 @@ export async function getEquippedByName(name: string) {
   const $ = load(htmlString);
   const list = $("div.card-body label").parent().text().trim().split("\n");
   if (list.length == 1) return 404;
-  console.log(list.length)
+  // console.log(list.length)
   const values: Record<string, string> = {};
   list.forEach((l) => {
     const label = l.split(":")[0].trim();
