@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const name = searchParams.get("name");
-  if (!name) return new Response("No name provided", { status: 400 });
+  if (!name) return NextResponse.json({ error: "No name provided" }, { status: 400 });
   revalidateTag(name);
   const id = await getIDbyName(name);
   const res = await fetch(`https://account.aq.com/Charpage/Badges?ccid=${id}`);
