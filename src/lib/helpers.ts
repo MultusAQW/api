@@ -14,7 +14,7 @@ export async function getIDbyName(name: string) {
 
 export async function getEquippedByName(name: string) {
   const response = await fetch(`https://account.aq.com/CharPage?id=${name}`, {
-    next: { revalidate: 60 },
+    next: { revalidate: false },
   });
   const htmlString = await response.text();
   const $ = load(htmlString);
