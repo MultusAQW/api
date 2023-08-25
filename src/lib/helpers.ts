@@ -2,7 +2,7 @@ import { load } from "cheerio";
 
 export async function getIDbyName(name: string) {
   const response = await fetch(`https://account.aq.com/CharPage?id=${name}`, {
-    next: { revalidate: 60 },
+    cache: "no-cache",
   });
   const htmlString = await response.text();
   const htmlS = htmlString.replace(/(\r\n|\n|\r)/gm, "");
@@ -14,7 +14,7 @@ export async function getIDbyName(name: string) {
 
 export async function getEquippedByName(name: string) {
   const response = await fetch(`https://account.aq.com/CharPage?id=${name}`, {
-    next: { revalidate: false },
+    cache: "no-cache",
   });
   const htmlString = await response.text();
   const $ = load(htmlString);

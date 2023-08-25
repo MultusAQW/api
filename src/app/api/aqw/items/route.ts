@@ -1,6 +1,5 @@
 import { getIDbyName } from "@/lib/helpers";
 import { inv } from "@/lib/types";
-import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export const runtime = "edge";
@@ -10,11 +9,12 @@ export async function GET(req: Request) {
   const name = searchParams.get("name");
   if (!name)
     return NextResponse.json({ error: "No name provided" }, { status: 400 });
-  revalidateTag(name);
   const id = await getIDbyName(name);
   const res = await fetch(
     `https://account.aq.com/Charpage/Inventory?ccid=${id}`,
-    { next: { revalidate: false } }
+    {
+      cache: "no-cache",
+    }
   );
   const data = (await res.json()) as inv[];
 
