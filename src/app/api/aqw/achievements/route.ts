@@ -1,15 +1,16 @@
-import { getIDbyName } from "@/lib/helpers";
+import { AQW } from "@/lib/helpers";
 import { badge } from "@/lib/types";
 import { NextResponse } from "next/server";
 
 export const runtime = "edge";
+const aqw = new AQW();
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const name = searchParams.get("name");
   if (!name)
     return NextResponse.json({ error: "No name provided" }, { status: 400 });
-  const id = await getIDbyName(name);
+  const id = await aqw.getIDbyName(name);
   const res = await fetch(`https://account.aq.com/Charpage/Badges?ccid=${id}`);
   const data = (await res.json()) as badge[];
 
