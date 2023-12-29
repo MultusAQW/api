@@ -11,22 +11,26 @@ export async function GET(req: Request) {
   if (!name)
     return NextResponse.json({ error: "No name provided" }, { status: 400 });
   const id = await aqw.getIDbyName(name);
-  const res = await fetch(
-    `https://account.aq.com/Charpage/Inventory?ccid=${id}`,
-    {
-      cache: "no-cache",
-    }
-  );
-  const data = (await res.json()) as inv[];
+  try {
+    const res = await fetch(
+      `https://account.aq.com/Charpage/Inventory?ccid=${id}`,
+      {
+        cache: "no-cache",
+      }
+    );
+    const data = (await res.json()) as inv[];
 
-  const items = data.map((item) => {
-    return {
-      acTagged: item.bCoins,
-      quantity: item.intCount === 302500 ? 1 : item.intCount,
-      name: item.strName,
-      type: item.strType,
-    };
-  });
+    const items = data.map((item) => {
+      return {
+        acTagged: item.bCoins,
+        quantity: item.intCount === 302500 ? 1 : item.intCount,
+        name: item.strName,
+        type: item.strType,
+      };
+    });
 
-  return NextResponse.json(items);
+    return NextResponse.json(items);
+  } catch (error) {
+    return new NextResponse("Error", { status: 500 });
+  }
 }
