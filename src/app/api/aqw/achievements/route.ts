@@ -13,7 +13,6 @@ export async function GET(req: Request) {
   const id = await aqw.getIDbyName(name);
   const res = await fetch(`https://account.aq.com/Charpage/Badges?ccid=${id}`);
   const data = (await res.json()) as badge[];
-  console.log({ id });
   const badges = data.map((badge) => {
     const { badgeID, sCategory, sTitle, sDesc, sFileName, sSubCategory } =
       badge;
